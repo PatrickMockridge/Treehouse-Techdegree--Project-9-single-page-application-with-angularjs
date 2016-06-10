@@ -1,20 +1,22 @@
 angular.module("app", ["ngRoute", "ngResource"])
 .controller('RecipesController', function($scope, dataService) {
 
-  $scope.addRecipe = function() {
-    var newRecipe = {description: "This is a new recipe!"};
-    $scope.recipes.push(newRecipe);
-  }
+  // $scope.category = null;
+  //
+  // $scope.addRecipe = function() {
+  //   var newRecipe = {description: "This is a new recipe!"};
+  //   $scope.recipes.push(newRecipe);
+  // };
 
    dataService.getRecipes(function(response) {
      console.log(response.data);
-     $scope.recipes = response.data;
+     $scope.getRecipes = response.data;
    });
   //
-    dataService.getCategoryOfRecipes(function(response) {
-      console.log(response.data);
-      $scope.recipes = response.data;
-    });
+     $scope.getCategoryOfRecipes = dataService.getCategoryOfRecipes(function(response) {
+       console.log(response.data);
+       $scope.getCategoryOfRecipes = response.data;
+     });
 
     dataService.getID(function(response) {
      console.log(response.data);
@@ -26,10 +28,10 @@ angular.module("app", ["ngRoute", "ngResource"])
   //   $scope.putID = response.data;
   // });
   //
-   dataService.postID(function(response) {
-     console.log(response.data);
-     $scope.recipes = response.data;
-   });
+  //  dataService.postID(function(response) {
+  //    console.log(response.data);
+  //    $scope.recipes = response.data;
+  //  });
   //
   // dataService.deleteID(function(response) {
   //   console.log(response.data);
@@ -56,10 +58,10 @@ angular.module("app", ["ngRoute", "ngResource"])
      $http.get('http://localhost:5000/api/recipes')
      .then(callback);
      }
-     this.getCategoryOfRecipes = function(callback, category) {
-      $http.get('http://localhost:5000/api/recipes?category={category}')
-      .then(callback);
-      }
+      this.getCategoryOfRecipes = function(callback) {
+       $http.get('http://localhost:5000/api/recipes?category={category}')
+       .then(callback);
+       }
       this.getID = function(callback) {
       $http.get('http://localhost:5000/api/recipes/')
       .then(callback)
@@ -68,10 +70,10 @@ angular.module("app", ["ngRoute", "ngResource"])
   // $http.put('http://localhost:5000/api/recipes/{id}')
   //   .then(callback)
   // }
-   this.postID = function(callback) {
-     $http.post('http://localhost:5000/api/recipes/')
-     .then(callback)
-  // }
+  //  this.postID = function(callback) {
+  //    $http.post('http://localhost:5000/api/recipes/', {})
+  //    .then(callback)
+   //}
   // this.deleteID = function(callback, id) {
   //   $http.delete('http://localhost:5000/api/recipes/{id}')
   //   .then(callback)

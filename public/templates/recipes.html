@@ -4,7 +4,7 @@
       populate the list with the categories from the database.
       You'll also need to add directives to handle when the user
       selects a new category so that you can refresh the recipes list. -->
-    <select ng-model="category">
+    <select ng-click="getCategoryOfRecipes()">
       <option value="">All Categories</option>
       <option value ="" ng-repeat="cat in getCategory">{{cat.name}}</option>
     </select>
@@ -13,7 +13,7 @@
     <div class="flush-right">
       <!-- TODO Add a directive to this button in order to handle
         when the user clicks to add a new recipe. -->
-      <button ng-click='addRecipe'>+ Add Recipe</button>
+      <button ng-click='addRecipe()'>+ Add Recipe</button>
     </div>
   </div>
 </div>
@@ -37,6 +37,7 @@
   <a href="/#/recipe-detail.html">
     <div class="grid-70">
       <p>
+        {{recipe.description}}
         <!-- TODO Add binding expressions here in order to
           display information about the recipe. -->
       </p>
@@ -49,10 +50,10 @@
           <!-- TODO Replace this anchor element's href attribute with a
             directive so that you can route the user to the Recipe Detail
             screen when they click on the 'Edit' link. -->
-          <a href="#"> <img src="images/edit.svg" height="12px"> Edit </a>
+          <a href="/#/recipe-detail.html"> <img src="images/edit.svg" height="12px"> Edit </a>
           <!-- TODO Add a directive to this anchor element so that you can
             delete the recipe when the user clicks on the 'Delete' link. -->
-          <a class="no-action-link"> <img src="images/delete.svg" height="12px"> Delete </a>
+          <a class="no-action-link" ng-click=""> <img src="images/delete.svg" height="12px"> Delete </a>
         </p>
       </div>
     </div>
