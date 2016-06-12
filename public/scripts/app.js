@@ -1,27 +1,31 @@
 angular.module("app", ["ngRoute", "ngResource"])
 .controller('RecipesController', function($scope, dataService) {
 
-  // $scope.category = null;
-  //
-  // $scope.addRecipe = function() {
-  //   var newRecipe = {description: "This is a new recipe!"};
-  //   $scope.recipes.push(newRecipe);
-  // };
-
    dataService.getRecipes(function(response) {
      console.log(response.data);
-     $scope.getRecipes = response.data;
+     $scope.recipes = response.data;
    });
-  //
-     $scope.getCategoryOfRecipes = dataService.getCategoryOfRecipes(function(response) {
-       console.log(response.data);
-       $scope.getCategoryOfRecipes = response.data;
+
+   $scope.category = null;
+
+    $scope.getCategoryOfRecipes = function() {
+        console.log($scope.category);
+        $http.get('http://localhost:5000/api/recipes?category=' + $scope.category)
+        .then(function(response){
+          $scope.recipes = response.data
      });
+   };
 
     dataService.getID(function(response) {
      console.log(response.data);
      $scope.getID = response.data;
    });
+
+   //
+   // $scope.addRecipe = function() {
+   //   var newRecipe = {description: "This is a new recipe!"};
+   //   $scope.recipes.push(newRecipe);
+   // }
 
   // dataService.putID(function(response) {
   //   console.log(response.data);
@@ -50,22 +54,26 @@ angular.module("app", ["ngRoute", "ngResource"])
 
 //mainCtrl close function
 })
-
-//need to serialse REST API requests with $.param or something like that
-
 .service('dataService', function($http) {
-   this.getRecipes = function(callback) {
+   this.getAll = function(callback) {
      $http.get('http://localhost:5000/api/recipes')
      .then(callback);
      }
-      this.getCategoryOfRecipes = function(callback) {
-       $http.get('http://localhost:5000/api/recipes?category={category}')
-       .then(callback);
-       }
-      this.getID = function(callback) {
+
+     this.getRecipes = function(callback) {
+        $http.get('http://localhost:5000/api/recipes')
+        .then(callback)
+     }
+
+    this.getCategoryOfRecipes = function(category, callback) {
+        $http.get('http://localhost:5000/api/recipes?category', category)
+        .then(callback)
+    }
+
+    this.getID = function(callback) {
       $http.get('http://localhost:5000/api/recipes/')
       .then(callback)
-      }
+    }
   // this.putID = function(callback) {
   // $http.put('http://localhost:5000/api/recipes/{id}')
   //   .then(callback)
@@ -79,7 +87,7 @@ angular.module("app", ["ngRoute", "ngResource"])
   //   .then(callback)
   // }
     this.getCategory = function(callback) {
-      $http.get('http://localhost:5000/api/categories') // something that gets categories
+      $http.get('http://localhost:5000/api/categories')
        .then(callback)
    }
   // this.getFoodItems = function(callback) {
