@@ -1,4 +1,4 @@
-angular.module("app", ["ngRoute", "ngResource"])
+angular.module("app", ['ngRoute'])
 .controller('RecipesController', function($scope, dataService, $http, $location) {
 
    dataService.getRecipes(function(response) {
@@ -77,7 +77,7 @@ angular.module("app", ["ngRoute", "ngResource"])
      }
 
     this.getCategoryOfRecipes = function(category, callback) {
-        $http.get('http://localhost:5000/api/recipes?category', category)
+        $http.get('http://localhost:5000/api/recipes?=' + category)
         .then(callback)
     }
 
