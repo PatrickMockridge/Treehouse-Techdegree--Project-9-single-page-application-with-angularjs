@@ -7,21 +7,23 @@ angular.module("app", ["ngRoute", "ngResource"])
    });
 
    $scope.category = null;
+   $scope.id = null;
 
-    $scope.getCategoryOfRecipes = function(id) {
+    $scope.getCategoryOfRecipes = function() {
         console.log(id);
-        $http.get('http://localhost:5000/api/recipes?category=' + id)
+        $http.get('http://localhost:5000/api/recipes?category=' + $scope.category)
         .then(function(response){
         $scope.recipes = response.data
      });
    };
 
-   $scope.clickRecipe = function() {
-      $location.
-       console.log($scope.category);
-       $http.get('http://localhost:5000/api/recipes/' + $scope.id)
-       .then(function(response){
-       $scope.recipe = response.data
+   $scope.clickRecipe = function($index) {
+       console.log($scope.recipes[$index]._id);
+       $http.get('http://localhost:5000/api/recipes/' + $scope.recipes[$index]._id)
+       .then(function(response) {
+       $scope.recipe = $scope.recipes[$index];
+       console.log($scope.recipe)
+       $location.url('/edit/' + $scope.recipes[$index]._id)
     });
   };
 

@@ -30,14 +30,14 @@
 <!-- TODO Add a directive to this div element so that it repeats
   for each recipe to display. Also, add a directive to this div element
   so that it only displays when there are recipes to display. -->
-<div class="grid-100 row addHover" ng-repeat="recipe in recipes">
+<div class="grid-100 row addHover" ng-repeat="rec in recipes">
   <!-- TODO Replace this anchor element's href attribute with a
     directive so that you can route the user to the Recipe Detail
     screen when they click on a row. -->
-  <a ng-model='id' href="/#/edit/{{recipe._id}}" ng-click="clickRecipe()">
+  <a href="" ng-click="clickRecipe($index)">
     <div class="grid-70">
       <p>
-        {{recipe.description}}
+        {{rec.description}}
         <!-- TODO Add binding expressions here in order to
           display information about the recipe. -->
       </p>
@@ -50,7 +50,7 @@
           <!-- TODO Replace this anchor element's href attribute with a
             directive so that you can route the user to the Recipe Detail
             screen when they click on the 'Edit' link. -->
-          <a ng-model='id' href="/#/edit/{{recipe._id}}" ng-click="clickRecipe({{recipe._id}})"> <img src="images/edit.svg" height="12px" > Edit </a>
+          <a href="" ng-click="clickRecipe($index)"> <img src="images/edit.svg" height="12px" > Edit </a>
           <!-- TODO Add a directive to this anchor element so that you can
             delete the recipe when the user clicks on the 'Delete' link. -->
           <a class="no-action-link" ng-click=""> <img src="images/delete.svg" height="12px"> Delete </a>
