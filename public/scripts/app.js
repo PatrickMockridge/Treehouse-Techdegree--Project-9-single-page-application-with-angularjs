@@ -1,5 +1,5 @@
 angular.module("app", ["ngRoute", "ngResource"])
-.controller('RecipesController', function($scope, dataService) {
+.controller('RecipesController', function($scope, dataService, $http, $location) {
 
    dataService.getRecipes(function(response) {
      console.log(response.data);
@@ -8,13 +8,22 @@ angular.module("app", ["ngRoute", "ngResource"])
 
    $scope.category = null;
 
-    $scope.getCategoryOfRecipes = function() {
-        console.log($scope.category);
-        $http.get('http://localhost:5000/api/recipes?category=' + $scope.category)
+    $scope.getCategoryOfRecipes = function(id) {
+        console.log(id);
+        $http.get('http://localhost:5000/api/recipes?category=' + id)
         .then(function(response){
-          $scope.recipes = response.data
+        $scope.recipes = response.data
      });
    };
+
+   $scope.clickRecipe = function() {
+      $location.
+       console.log($scope.category);
+       $http.get('http://localhost:5000/api/recipes/' + $scope.id)
+       .then(function(response){
+       $scope.recipe = response.data
+    });
+  };
 
     dataService.getID(function(response) {
      console.log(response.data);
