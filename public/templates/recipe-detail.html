@@ -25,8 +25,8 @@
     <ul class="validation-errors">
       <!-- TODO Add a directive to this li element so that it repeats
         for each validation message that there is to display -->
-      <li ng-repeat="message in validation-errors">
-        Error Message: {{validation-errors[message]}}
+      <!-- <li ng-repeat="message in validation-errors"> -->
+        <!-- Error Message: {{validation-errors[message]}} -->
         <!-- TODO Add a binding expression to display the validation user message. -->
       </li>
     </ul>
@@ -44,7 +44,7 @@
     <p>
       <!-- TODO Add a directive to this input element to bind its value
         to the recipe model's `name` property. -->
-      <input type="text" ng-model="newRecipe.name">
+      <input type="text" ng-model="recipe.name">
     </p>
   </div>
 </div>
@@ -60,7 +60,7 @@
     <p>
       <!-- TODO Add a directive to this textarea element to bind its content
         to the recipe model's `description` property. -->
-      <textarea ng-model="newRecipe.description"></textarea>
+      <textarea ng-model="recipe.description"></textarea>
     </p>
   </div>
 </div>
@@ -77,8 +77,8 @@
       <!-- TODO Add directives to this select element to bind its value
         to the recipe model's `category` property and to populate the list
         with the categories from the database. -->
-      <select ng-model="newRecipe.category">
-        <option value ="" ng-repeat="category in getCategory">{{category.name}}</option>
+      <select ng-model="recipe.category">
+        <option value ="{{category.name}}" ng-repeat="category in getCategory">{{category.name}}</option>
       </select>
     </p>
   </div>
@@ -95,7 +95,7 @@
     <p>
       <!-- TODO Add a directive to this input element to bind its value
         to the recipe model's `prepTime` property. -->
-      <input ng-model="newRecipe.prepTime" type="number">
+      <input ng-model="recipe.prepTime" type="number">
     </p>
   </div>
 </div>
@@ -111,7 +111,7 @@
     <p>
       <!-- TODO Add a directive to this input element to bind its value
         to the recipe model's `cookTime` property. -->
-      <input ng-model="newRecipe.cookTime" type="number">
+      <input ng-model="recipe.cookTime" type="number">
     </p>
   </div>
 </div>
@@ -141,15 +141,15 @@
 
   <!-- TODO Add a directive to this div element so that it repeats
     for each recipe ingredient to display. -->
-  <div class="ingredient-row" ng-repeat="ingredient in newRecipe.ingredients">
+  <div class="ingredient-row" ng-repeat="ingredient in recipe.ingredients">
     <div class="prefix-20 grid-30">
       <p>
         <!-- TODO Add directives to this select element to bind its value
           to the recipe ingredient model's `foodItem` property and to
           populate the list with the food items from the database. -->
-        <select>
+        <select ng-model="ingredient.foodItem">
           <option value="" >Select Item</option>
-          <option value ="" ng-model="newRecipe.ingredients[ingredient].foodItem"</option>
+          <option value="{{item.name}}" ng-repeat="item in foodItems">{{item.name}}</option>
         </select>
       </p>
     </div>
@@ -157,14 +157,14 @@
       <p>
         <!-- TODO Add a directive to this input element to bind its value
           to the recipe ingredient model's `condition` property. -->
-        <input type="text" ng-model="newRecipe.ingredients[ingredient].condition">{{newRecipe.ingredients.condition}}>
+        <input type="text" ng-model="ingredient.condition">
       </p>
     </div>
     <div class="grid-15">
       <p>
         <!-- TODO Add a directive to this input element to bind its value
           to the recipe ingredient model's `amount` property. -->
-        <input type="text" ng-model="newRecipe.ingredients[ingredient].condition">{{newRecipe.ingredients.condition}}>
+        <input type="text" ng-model="ingredient.amount">
       </p>
     </div>
     <div class="grid-5 pad-top">
@@ -206,7 +206,7 @@
       <p>
         <!-- TODO Add a directive to this input element to bind its value
           to the recipe step model's `description` property. -->
-        <input type="text">
+        <input type="text" ng-model="recipe.description">
       </p>
     </div>
     <div class="grid-5 pad-top">
