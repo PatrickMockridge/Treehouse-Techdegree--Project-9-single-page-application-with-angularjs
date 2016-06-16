@@ -29,18 +29,23 @@ angular.module("app", ['ngRoute'])
   //    });
   //  };
 
-  var newRecipe = {"name":"New Recipe","description":"New Recipe","category":"Other","prepTime":0,"cookTime":0,"ingredients":[],"steps":[]}
-  var data = $.param(newRecipe);
-  var config = {
-      headers : {
-                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
-            }
-      };
+  var newRecipe = {name:"New Recipe",description:"New Recipe",category:"Other",prepTime:0,cookTime:0,ingredients:[  {foodItem: "New Item", condition: "New Item", amount: "New Item"},],steps:[{description: "This is a new recipe!"}]}
+  //var data = $.param(newRecipe);
+  //var config = {
+      //headers : {
+                //'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+            //}
+      //};
    $scope.addRecipe = function() {
-         dataService.addRecipe(data, config, function(response) {
-         console.log(response.data);
-         $scope.recipes = response.data;
-       });
+         dataService.addRecipe(newRecipe, function(response) {
+         var page = response.data._id;
+         $location.url('/edit/' + response.data._id)
+     },
+       function(reason) {
+         console.log(reason)
+       }
+
+     );
     };
 
   //  $scope.clickRecipe = function($index) {
@@ -129,9 +134,9 @@ if ($scope.ID != 123) {
   // $http.put('http://localhost:5000/api/recipes/{id}')
   //   .then(callback)
   // }
-   this.addRecipe = function(recipe, config, callback) {
-     $http.post('http://localhost:5000/api/recipes', recipe, config)
-    .then(callback);
+   this.addRecipe = function(recipe, callbackSuccess, callbackFailure) {
+     $http.post('http://localhost:5000/api/recipes', recipe)
+    .then(callbackSuccess, callbackFailure);
   };
   // this.deleteID = function(callback, id) {
   //   $http.delete('http://localhost:5000/api/recipes/{id}')
@@ -142,7 +147,7 @@ if ($scope.ID != 123) {
        .then(callback);
    };
    this.getFoodItems = function(callback) {
-     $http.get('http://localhost:5000/api/fooditems') // something that gets food items
+      $http.get('http://localhost:5000/api/fooditems') // something that gets food items
       .then(callback);
    };
 });
