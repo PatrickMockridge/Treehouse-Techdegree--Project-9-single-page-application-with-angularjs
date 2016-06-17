@@ -1,10 +1,11 @@
 <div class="grid-100 row controls">
   <div class="grid-50">
-    {{recipe.name}}
+
     <!-- TODO Add a binding expression to display the recipe name
       when editing a recipe. When adding a recipe, display the
       static text 'Add New Recipe'. -->
-    <h2>Add/Edit Recipe</h2>
+    <h2 ng-if="recipe.name=='New Recipe'">Add Recipe</h2>
+    <h2 ng-if="recipe.name!='New Recipe'">Edit Recipe</h2>
   </div>
   <div class="grid-50">
     <div class="flush-right">
@@ -21,12 +22,12 @@
   when there are validation messages to display. -->
 <div class="grid-100 row">
   <div class="grid-100">
-    <p><i>The following errors were found:</i></p>
+    <p ng-if="errors.length > 0"><i>The following errors were found:</i></p>
     <ul class="validation-errors">
       <!-- TODO Add a directive to this li element so that it repeats
         for each validation message that there is to display -->
-      <!-- <li ng-repeat="message in validation-errors"> -->
-        <!-- Error Message: {{validation-errors[message]}} -->
+      <li ng-repeat="message in errors">
+        Error Message: {{message}}
         <!-- TODO Add a binding expression to display the validation user message. -->
       </li>
     </ul>

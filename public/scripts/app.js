@@ -39,36 +39,24 @@ angular.module("app", ['ngRoute'])
      },
         function(reason) {
          console.log(reason)
-       }
-     );
-
+       });
     };
-
-  //  $scope.clickRecipe = function($index) {
-  //      console.log($scope.recipes[$index]._id);
-  //      $http.get('http://localhost:5000/api/recipes/' + $scope.recipes[$index]._id)
-  //      .then(function(response) {
-  //      $scope.recipe = $scope.recipes[$index];
-  //      console.log($scope.recipe)
-  //      $location.url('/edit/' + $scope.recipes[$index]._id)
-  //   });
-  // };
 })
 .controller('RecipeDetailController', function($scope, dataService, $http, $location, $routeParams) {
 
-  $scope.ID = $routeParams.id;
+$scope.ID = $routeParams.id;
 
-  $scope.getID = function() {
+$scope.getID = function() {
   dataService.getID($scope.ID, function(response) {
   console.log(response.data);
   $scope.recipe = response.data;
    });
- };
- $scope.getID();
+};
+$scope.getID();
 
- dataService.getCategory(function(response) {
-    console.log(response.data);
-      $scope.getCategory = response.data;
+dataService.getCategory(function(response) {
+  console.log(response.data);
+    $scope.getCategory = response.data;
       });
 
 $scope.addIngredient = function() {
@@ -92,43 +80,26 @@ $scope.deleteStep = function(index) {
   $scope.recipe.steps.splice(index, 1);
 }
 
-      // $scope.putThis = function() {
-      //   dataService.addRecipe(newRecipe, function(response) {
-      //       $scope.page = response.data._id;
-      //    },
-      //      function(reason) {
-      //        console.log(reason)
-      //      }
-      //    );
-      //    $location.url('/edit/' + $scope.page)
-      //   };
-
-  // $scope.newRecipe = {"name":"New Recipe","description":"New Recipe","category":"","prepTime":0,"cookTime":0,"ingredients":[],"steps":[]}
-  //
-    $scope.saveRecipe = function() {
-          dataService.putID($scope.recipe._id, $scope.recipe, function(response) {
-          console.log(response.data);
-          $scope.recipe = response.data;
+$scope.saveRecipe = function() {
+  dataService.putID($scope.recipe._id, $scope.recipe, function(response) {
+      console.log(response.data);
+      $scope.recipe = response.data;
         }, function(reason) {
           console.log(reason);
-        }
-      );
-     };
+      $scope.errors = [];
+      if (reason.data.errors.ingredients != null) {
+        $scope.errors.push(reason.data.errors.ingredients[0].userMessage);
+      };
+      if (reason.data.errors.steps != null) {
+        $scope.errors.push(reason.data.errors.steps[0].userMessage );
+      }
+      if (reason.data.errors.name != null) {
+        $scope.errors.push(reason.data.errors.name[0].userMessage );
+      }
+      console.log($scope.errors);
+      });
+  };
 
-    //  this.putID = function(id, data, callback, failure) {
-    //   $http.put('http://localhost:5000/api/recipes/' + id, data)
-    //     .then(callback, failure)
-
-  // dataService.putID(function(response) {
-  //   console.log(response.data);
-  //   $scope.putID = response.data;
-  // });
-  //
-  //  dataService.postID(function(response) {
-  //    console.log(response.data);
-  //    $scope.recipes = response.data;
-  //  });
-  //
   $scope.goBack = function() {
       $location.url('/#')
   };
@@ -141,46 +112,48 @@ $scope.deleteStep = function(index) {
 //mainCtrl close function
 })
 .service('dataService', function($http) {
+
    this.getAll = function(callback) {
      $http.get('http://localhost:5000/api/recipes')
-     .then(callback);
+          .then(callback);
    };
 
-     this.getRecipes = function(callback) {
-        $http.get('http://localhost:5000/api/recipes')
-        .then(callback);
-     };
+  this.getRecipes = function(callback) {
+    $http.get('http://localhost:5000/api/recipes')
+         .then(callback);
+   };
 
-    this.getCategoryOfRecipes = function(category, callback) {
-        $http.get('http://localhost:5000/api/recipes?category=' + category)
-             .then(callback);
-    };
+  this.getCategoryOfRecipes = function(category, callback) {
+    $http.get('http://localhost:5000/api/recipes?category=' + category)
+         .then(callback);
+   };
 
-    this.getID = function(id, callback) {
-      $http.get('http://localhost:5000/api/recipes/' + id)
-      .then(callback);
-    };
+  this.getID = function(id, callback) {
+    $http.get('http://localhost:5000/api/recipes/' + id)
+         .then(callback);
+   };
+
   this.putID = function(id, data, callback, failure) {
    $http.put('http://localhost:5000/api/recipes/' + id, data)
-     .then(callback, failure)
+        .then(callback, failure)
    };
+
    this.addRecipe = function(recipe, callbackSuccess, callbackFailure) {
      $http.post('http://localhost:5000/api/recipes', recipe)
-    .then(callbackSuccess, callbackFailure);
-  };
+          .then(callbackSuccess, callbackFailure);
+   };
+
    this.deleteID = function(id, callbackSuccess, callbackFailure) {
      $http.delete('http://localhost:5000/api/recipes/' + id)
-     .then(callbackSuccess, callbackFailure)
+          .then(callbackSuccess, callbackFailure)
    };
+
     this.getCategory = function(callback) {
       $http.get('http://localhost:5000/api/categories')
-       .then(callback);
+           .then(callback);
    };
    this.getFoodItems = function(callback) {
-      $http.get('http://localhost:5000/api/fooditems') // something that gets food items
-      .then(callback);
+      $http.get('http://localhost:5000/api/fooditems')
+           .then(callback);
    };
 });
-// .config(function($sceProvider) {
-//    $sceProvider.enabled(false);
-//  });
