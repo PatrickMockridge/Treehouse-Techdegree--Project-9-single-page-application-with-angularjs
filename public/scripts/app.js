@@ -71,6 +71,27 @@ angular.module("app", ['ngRoute'])
       $scope.getCategory = response.data;
       });
 
+$scope.addIngredient = function() {
+  $scope.recipe.ingredients.push({
+      foodItem: "New Item",
+      condition: "New Item",
+      amount: "New Item"
+    });
+};
+
+$scope.deleteIngredient = function(index) {
+  $scope.recipe.ingredients.splice(index, 1);
+}
+
+$scope.newStep = function() {
+  $scope.recipe.steps.push({description: "New Step"});
+  console.log($scope.recipe.steps);
+};
+
+$scope.deleteStep = function(index) {
+  $scope.recipe.steps.splice(index, 1);
+}
+
       // $scope.putThis = function() {
       //   dataService.addRecipe(newRecipe, function(response) {
       //       $scope.page = response.data._id;
@@ -85,7 +106,7 @@ angular.module("app", ['ngRoute'])
   // $scope.newRecipe = {"name":"New Recipe","description":"New Recipe","category":"","prepTime":0,"cookTime":0,"ingredients":[],"steps":[]}
   //
     $scope.saveRecipe = function() {
-          dataService.putID($scope.recipe, function(response) {
+          dataService.putID($scope.recipe._id, $scope.recipe, function(response) {
           console.log(response.data);
           $scope.recipe = response.data;
         }, function(reason) {
@@ -93,6 +114,10 @@ angular.module("app", ['ngRoute'])
         }
       );
      };
+
+    //  this.putID = function(id, data, callback, failure) {
+    //   $http.put('http://localhost:5000/api/recipes/' + id, data)
+    //     .then(callback, failure)
 
   // dataService.putID(function(response) {
   //   console.log(response.data);
@@ -108,7 +133,6 @@ angular.module("app", ['ngRoute'])
       $location.url('/#')
   };
 
-  //
    dataService.getFoodItems(function(response) {
      console.log(response.data);
      $scope.foodItems = response.data;
@@ -136,8 +160,8 @@ angular.module("app", ['ngRoute'])
       $http.get('http://localhost:5000/api/recipes/' + id)
       .then(callback);
     };
-  this.putID = function(id, callback, failure) {
-   $http.put('http://localhost:5000/api/recipes/', id)
+  this.putID = function(id, data, callback, failure) {
+   $http.put('http://localhost:5000/api/recipes/' + id, data)
      .then(callback, failure)
    };
    this.addRecipe = function(recipe, callbackSuccess, callbackFailure) {

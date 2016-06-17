@@ -171,7 +171,7 @@
       <p class="flush-right">
         <!-- TODO Add a directive to this anchor element so that you can
           delete the recipe ingredient when the user clicks on the 'Delete' link. -->
-        <a class="no-action-link"> <img src="images/delete.svg" height="12px"> </a>
+        <a class="no-action-link" ng-click="deleteIngredient($index)"> <img src="images/delete.svg" height="12px"> </a>
       </p>
     </div>
   </div>
@@ -180,7 +180,7 @@
     <p>
       <!-- TODO Add a directive to this button in order to handle
         when the user clicks to add a new recipe ingredient. -->
-      <button>+ Add Another Ingredient</button>
+      <button ng-click="addIngredient()">+ Add Another Ingredient</button>
     </p>
   </div>
 
@@ -201,19 +201,19 @@
 
   <!-- TODO Add a directive to this div element so that it repeats
     for each recipe step to display. -->
-  <div class="step-row">
+  <div class="step-row" ng-repeat="step in recipe.steps">
     <div class="prefix-20 grid-75">
       <p>
         <!-- TODO Add a directive to this input element to bind its value
           to the recipe step model's `description` property. -->
-        <input type="text" ng-model="recipe.description">
+        <input type="text" ng-model="recipe.steps[$index].description">
       </p>
     </div>
     <div class="grid-5 pad-top">
       <p class="flush-right">
         <!-- TODO Add a directive to this anchor element so that you can
           delete the recipe step when the user clicks on the 'Delete' link. -->
-        <a class="no-action-link"> <img src="images/delete.svg" height="12px"> </a>
+        <a class="no-action-link" ng-click="deleteStep($index)"> <img src="images/delete.svg" height="12px"> </a>
       </p>
     </div>
   </div>
@@ -222,7 +222,7 @@
     <p>
      <!-- TODO Add a directive to this button in order to handle
        when the user clicks to add a new recipe step. -->
-     <button>+ Add Another Step</button>
+     <button ng-click="newStep()">+ Add Another Step</button>
     </p>
   </div>
 
