@@ -50,10 +50,10 @@
           <!-- TODO Replace this anchor element's href attribute with a
             directive so that you can route the user to the Recipe Detail
             screen when they click on the 'Edit' link. -->
-          <a ng-href="/#/edit{{rec._id}}"> <img src="images/edit.svg" height="12px" > Edit </a>
+          <a ng-href="#/edit/{{rec._id}}"> <img src="images/edit.svg" height="12px" > Edit </a>
           <!-- TODO Add a directive to this anchor element so that you can
             delete the recipe when the user clicks on the 'Delete' link. -->
-          <a class="no-action-link" ng-click=""> <img src="images/delete.svg" height="12px"> Delete </a>
+          <a class="no-action-link" ng-click="deleteRecipe($index)"> <img src="images/delete.svg" height="12px"> Delete </a>
         </p>
       </div>
     </div>
