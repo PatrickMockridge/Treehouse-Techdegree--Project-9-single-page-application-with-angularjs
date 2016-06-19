@@ -1,4 +1,10 @@
+// REVIEW I would wrap all of this code in an immediately invoked function expression
+
+// REVIEW This is a nitpick, but I would suggest that you either use single or double quotes
+// for your string literals and stick with that choice (and not switch back and forth).
 angular.module("app", ['ngRoute'])
+// REVIEW I don't see that the "$http" service is used in this controller. If it's not, 
+// then I'd remove it from the list of dependencies.
 .controller('RecipesController', function($scope, dataService, $http, $location) {
     //get recipes from database on load
    dataService.getRecipes(function(response) {
@@ -17,22 +23,50 @@ angular.module("app", ['ngRoute'])
         });
    };
    //get categories
+   // REVIEW I would rename this function to `getCategories` to make it clearer that its retrieving 
+   // a list of categories and not just a single category.
    dataService.getCategory(function(response) {
      console.log(response.data);
+     // REVIEW Why are you assigning the `response.data` over the top of the `getCategory` function?
+     // Shouldn't the result go into its own $scope property?
      $scope.getCategory = response.data;
    });
     //delete recipe
     $scope.deleteRecipe = function($index) {
       dataService.deleteID($scope.recipes[$index]._id, function(response) {
         console.log(response);
+        // REVIEW Instead of repeating the code to get the list of recipes, how about putting
+        // this code into a function and calling it when the controller is loading and here?
         dataService.getRecipes(function(response) {
           console.log(response.data);
           $scope.recipes = response.data;
       });
     });
   };
+
   //new recipe JSON object
-  var newRecipe = {name:"New Recipe", description:"New Recipe", category:"Other",prepTime:0,cookTime:0,ingredients:[  {foodItem: "New Item", condition: "New Item", amount: "New Item"},],steps:[{description: "This is a new recipe!"}]}
+  // REVIEW I would format this code like this. Having it all on one line makes it much more difficult
+  // to understand at a glance what the object shape looks like.
+  var newRecipe = {
+    name: "New Recipe", 
+    description: "New Recipe", 
+    category: "Other",
+    prepTime: 0,
+    cookTime: 0,
+    ingredients: [
+      {
+        foodItem: "New Item", 
+        condition: "New Item", 
+        amount: "New Item"
+      },
+    ],
+    steps: [
+      {
+        description: "This is a new recipe!"
+      }
+    ]
+  };
+
    $scope.addRecipe = function() {
         // add the recipe and then go to the detail screen
          dataService.addRecipe(newRecipe, function(response) {
@@ -43,6 +77,7 @@ angular.module("app", ['ngRoute'])
        });
     };
 })
+// REVIEW I would remove "$http" if it's not used.
 .controller('RecipeDetailController', function($scope, dataService, $http, $location, $routeParams) {
 // get the id of the element from the url
 $scope.ID = $routeParams.id;
@@ -56,8 +91,12 @@ $scope.getID = function() {
 // execute the getID function to get the recipe straight immediately
 $scope.getID();
 // get the recipe categories to fill the select menu
+// REVIEW I would rename this function to `getCategories` to make it clearer that its retrieving 
+// a list of categories and not just a single category.
 dataService.getCategory(function(response) {
   console.log(response.data);
+     // REVIEW Why are you assigning the `response.data` over the top of the `getCategory` function?
+     // Shouldn't the result go into its own $scope property?
     $scope.getCategory = response.data;
       });
 // add ingredients object in local memory when button is pushed
@@ -91,12 +130,16 @@ $scope.saveRecipe = function() {
           //create an array of error messages for the user from the error reason object,
           //if the messages exist they are passed into $scope.errors array for display to the user
       $scope.errors = [];
+      // REVIEW What if there was an error on more than one ingredient?
       if (reason.data.errors.ingredients != null) {
         $scope.errors.push(reason.data.errors.ingredients[0].userMessage);
       };
+      // REVIEW What if there was an error on more than one step?
       if (reason.data.errors.steps != null) {
         $scope.errors.push(reason.data.errors.steps[0].userMessage );
       }
+      // REVIEW Can you think of a way to map the API errors to your `$scope.errors` array
+      // without hard coding the `errors` property names?
       if (reason.data.errors.name != null) {
         $scope.errors.push(reason.data.errors.name[0].userMessage );
       }
@@ -117,6 +160,7 @@ $scope.saveRecipe = function() {
 })
 .service('dataService', function($http) {
     //get all recipes
+    // REVIEW Is this function in use?
    this.getAll = function(callback) {
      $http.get('http://localhost:5000/api/recipes')
           .then(callback);
@@ -142,6 +186,8 @@ $scope.saveRecipe = function() {
         .then(callback, failure)
    };
    //create a new recipe in the database
+   // REVIEW This is a nitpick, but I would make my callback parameter names 
+   // consistent across your data service functions.
    this.addRecipe = function(recipe, callbackSuccess, callbackFailure) {
      $http.post('http://localhost:5000/api/recipes', recipe)
           .then(callbackSuccess, callbackFailure);
