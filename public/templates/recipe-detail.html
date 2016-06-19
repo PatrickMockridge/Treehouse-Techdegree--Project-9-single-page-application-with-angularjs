@@ -4,6 +4,8 @@
     <!-- TODO Add a binding expression to display the recipe name
       when editing a recipe. When adding a recipe, display the
       static text 'Add New Recipe'. -->
+    <!-- This logic works, provided that the user doesn't leave their recipe named "New Recipe". 
+        Can you think of another way to achieve the same result? -->
     <h2 ng-if="recipe.name=='New Recipe'">Add Recipe</h2>
     <h2 ng-if="recipe.name!='New Recipe'">Edit Recipe</h2>
   </div>
