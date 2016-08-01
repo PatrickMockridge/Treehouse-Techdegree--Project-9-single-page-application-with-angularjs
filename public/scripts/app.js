@@ -1,5 +1,6 @@
+'use strict'
 angular.module("app", ['ngRoute'])
-.controller('RecipesController', function($scope, dataService, $http, $location) {
+.controller('RecipesController', function($scope, dataService, $location) {
 
    dataService.getRecipes(function(response) {
      console.log(response.data);
@@ -32,7 +33,18 @@ angular.module("app", ['ngRoute'])
     });
   };
 
-  var newRecipe = {name:"New Recipe", description:"New Recipe", category:"Other",prepTime:0,cookTime:0,ingredients:[  {foodItem: "New Item", condition: "New Item", amount: "New Item"},],steps:[{description: "This is a new recipe!"}]}
+  var newRecipe = {
+    name:"New Recipe",
+    description:"New Recipe",
+    category:"Other",
+    prepTime:0,
+    cookTime:0,
+    ingredients:[
+      {foodItem: "New Item", condition: "New Item", amount: "New Item"},
+    ],steps:[
+      {description: "This is a new recipe!"}
+    ]
+  };
    $scope.addRecipe = function() {
          dataService.addRecipe(newRecipe, function(response) {
          $location.url('/edit/' + response.data._id);
@@ -42,7 +54,7 @@ angular.module("app", ['ngRoute'])
        });
     };
 })
-.controller('RecipeDetailController', function($scope, dataService, $http, $location, $routeParams) {
+.controller('RecipeDetailController', function($scope, dataService, $location, $routeParams) {
 
 $scope.ID = $routeParams.id;
 
