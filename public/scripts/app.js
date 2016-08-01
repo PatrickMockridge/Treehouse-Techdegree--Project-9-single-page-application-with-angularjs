@@ -56,70 +56,76 @@ angular.module("app", ['ngRoute'])
 })
 .controller('RecipeDetailController', function($scope, dataService, $location, $routeParams) {
 
-$scope.ID = $routeParams.id;
+  $scope.ID = $routeParams.id;
 
-$scope.getID = function() {
-  dataService.getID($scope.ID, function(response) {
-  console.log(response.data);
-  $scope.recipe = response.data;
-   });
-};
-$scope.getID();
+  $scope.getID = function() {
+    dataService.getID($scope.ID, function(response) {
+      console.log(response.data);
+      $scope.recipe = response.data;
+    });
+  };
+  $scope.getID();
 
-dataService.getCategory(function(response) {
-  console.log(response.data);
-    $scope.getCategory = response.data;
-      });
+  dataService.getCategory(function(response) {
+    console.log(response.data);
+      $scope.getCategory = response.data;
+        });
 
-$scope.addIngredient = function() {
-  $scope.recipe.ingredients.push({
+  $scope.addIngredient = function() {
+    $scope.recipe.ingredients.push({
       foodItem: "New Item",
       condition: "New Item",
       amount: "New Item"
     });
-};
+  };
 
-$scope.deleteIngredient = function(index) {
-  $scope.recipe.ingredients.splice(index, 1);
-}
+  $scope.deleteIngredient = function(index) {
+    $scope.recipe.ingredients.splice(index, 1);
+  }
 
 $scope.newStep = function() {
   $scope.recipe.steps.push({description: "New Step"});
   console.log($scope.recipe.steps);
 };
 
-$scope.deleteStep = function(index) {
-  $scope.recipe.steps.splice(index, 1);
-}
+  $scope.deleteStep = function(index) {
+    $scope.recipe.steps.splice(index, 1);
+  }
 
-$scope.saveRecipe = function() {
-  dataService.putID($scope.recipe._id, $scope.recipe, function(response) {
-      console.log(response.data);
-      $scope.recipe = response.data;
-        }, function(reason) {
-          console.log(reason);
-      $scope.errors = [];
-      if (reason.data.errors.ingredients != null) {
-        $scope.errors.push(reason.data.errors.ingredients[0].userMessage);
-      };
-      if (reason.data.errors.steps != null) {
-        $scope.errors.push(reason.data.errors.steps[0].userMessage );
-      }
-      if (reason.data.errors.name != null) {
-        $scope.errors.push(reason.data.errors.name[0].userMessage );
-      }
-      console.log($scope.errors);
-      });
-  };
+  $scope.saveRecipe = function() {
+    dataService.putID($scope.recipe._id, $scope.recipe, function(response) {
+        console.log(response.data);
+        $scope.recipe = response.data;
+          }, function(reason) {
+            console.log(reason);
+            $scope.errors = [];
+            if (reason.data.errors.ingredients != null) {
+              for (var i = 0; i < reason.data.errors.ingredients.length, i++) {
+                $scope.errors.push(reason.data.errors.ingredients[i].userMessage);
+              };
+            };
+            if (reason.data.errors.steps != null) {
+              for (var i = 0; i < reason.data.errors.steps.length, i++) {
+                $scope.errors.push(reason.data.errors.steps[i].userMessage);
+              };
+            };
+            if (reason.data.errors.name != null) {
+              for (var i = 0; i < reason.data.errors.name.length, i++) {
+                $scope.errors.push(reason.data.errors.name[i].userMessage);
+              };
+            };
+            console.log($scope.errors);
+          });
+        };
 
-  $scope.goBack = function() {
-      $location.url('/#')
-  };
+        $scope.goBack = function() {
+          $location.url('/#')
+        };
 
-   dataService.getFoodItems(function(response) {
-     console.log(response.data);
-     $scope.foodItems = response.data;
-   });
+        dataService.getFoodItems(function(response) {
+          console.log(response.data);
+          $scope.foodItems = response.data;
+        });
 
 //mainCtrl close function
 })
