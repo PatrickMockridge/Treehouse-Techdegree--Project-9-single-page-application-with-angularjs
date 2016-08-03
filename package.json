@@ -13,6 +13,7 @@
     "angular": "^1.5.3",
     "angular-route": "^1.5.3",
     "body-parser": "^1.15.0",
+    "eslint": "^3.2.2",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "nedb": "^1.8.0"
